@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -16,7 +16,10 @@ export class AuthService {
 
 
   login(user: string, password: string) {
-    this.http.post(this.uri + '/login/', { user: user, password: password })
+    let params: HttpParams = new HttpParams();
+    params = params.set('user', user).set('password', password);
+    
+    this.http.post(this.uri + '/login/', null, {"params":params})
       .subscribe(
         (resp: any) => {
           console.log("respuesta", resp);

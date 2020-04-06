@@ -68,7 +68,7 @@ public class AngulardemoApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 						.antMatchers(HttpMethod.POST, "/login/**").permitAll()
-					 	.antMatchers(HttpMethod.GET, "/users/**").permitAll()
+					 	//.antMatchers(HttpMethod.GET, "/users/**").permitAll()
 					.anyRequest().authenticated();
 					http.cors();
 		}
