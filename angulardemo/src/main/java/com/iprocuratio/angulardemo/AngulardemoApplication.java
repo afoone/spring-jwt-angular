@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import com.iprocuratio.angulardemo.model.User;
 import com.iprocuratio.angulardemo.repository.UserRepository;
+
 import com.iprocuratio.angulardemo.security.JWTAuthorizationFilter;
 
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 
 @SpringBootApplication
 public class AngulardemoApplication {
@@ -40,8 +40,7 @@ public class AngulardemoApplication {
 		};
 	}
 
-
-	//CORS
+	// CORS
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -52,20 +51,26 @@ public class AngulardemoApplication {
 		};
 	}
 
-
+	// @Bean
+    // CorsFilter corsFilter() {
+    //     CorsFilter filter = new CorsFilter();
+    //     return filter;
+    // }
 
 	// Configuración de seguridad
 	@EnableWebSecurity
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
-				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login/").permitAll()
-		//		.antMatchers(HttpMethod.GET, "/users/**").permitAll()
-				.anyRequest().authenticated();
+					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+					.authorizeRequests()
+						.antMatchers(HttpMethod.POST, "/login/**").permitAll()
+					 	.antMatchers(HttpMethod.GET, "/users/**").permitAll()
+					.anyRequest().authenticated();
+					http.cors();
 		}
 	}
 

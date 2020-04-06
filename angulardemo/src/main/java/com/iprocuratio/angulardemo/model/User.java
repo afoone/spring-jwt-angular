@@ -12,28 +12,24 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String name = "";
-    
-    private String email ="";
+
+    private String email = "";
 
     private String user;
 
     @JsonIgnore
     private String password;
 
-    
     private String token;
 
-
-
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,7 +42,7 @@ public class User {
     }
 
     public User(String name, String email) {
-        this.email= email;
+        this.email = email;
         this.name = name;
     }
 
@@ -85,6 +81,10 @@ public class User {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "User [email=" + email + ", id=" + id + ", name=" + name + ", password=" + password + ", token=" + token
+                + ", user=" + user + "]";
+    }
 
-    
 }

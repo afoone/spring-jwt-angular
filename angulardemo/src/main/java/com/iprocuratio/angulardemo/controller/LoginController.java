@@ -5,31 +5,50 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.iprocuratio.angulardemo.model.User;
+import com.iprocuratio.angulardemo.repository.UserRepository;
 import com.iprocuratio.angulardemo.security.JWTAuthorizationFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
-@RequestMapping("/login")
 public class LoginController {
 
-    // Recupera el JWT
-    @PostMapping("/")
-    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
-        String token = getJWTToken(username);
-        User user = new User();
-        user.setUser(username);
-        user.setToken(token);
-        return user;
+    @Autowired
+    UserRepository userRepository;
 
+    Logger l = LoggerFactory.getLogger(this.getClass());
+
+    // Recupera el JWT
+    @PostMapping("/login/")
+    public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+        l.debug("entrando en login");
+
+        l.debug(username);
+        List<User> users = userRepository.findByUser(username);
+        l.debug(users.toString());
+        if (users.size() < 1)
+            return null;
+        User user = users.get(0);
+        // user.setUser(username);
+        if (!user.getPassword().equals(pwd))
+            return null;
+        String token = getJWTToken(username);
+        user.setToken(token);
+
+        return user;
     }
 
     private String getJWTToken(String username) {
