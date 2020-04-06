@@ -21,7 +21,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RequestMapping("/login")
 public class LoginController {
 
-
     // Recupera el JWT
     @PostMapping("/")
     public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
@@ -45,7 +44,5 @@ public class LoginController {
                 .signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
         return "Bearer " + token;
     }
-
-
 
 }
