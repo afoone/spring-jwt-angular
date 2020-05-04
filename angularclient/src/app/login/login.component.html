@@ -1,14 +1,14 @@
 <h3>Login</h3>
-<div>
-  <div class="spacer">
-    <label for="Email">User</label>
-    <input type="text" placeholder="Usuario (jimena)" [(ngModel)]="user">
-  </div>
-  <div class="spacer">
-    <label for="password">Password</label>
-    <input type="password" placeholder="password (password)" [(ngModel)]="password" class="form-control"/>
-  </div>
-  <div class="spacer">
-    <button  type="submit" (click)="Login()">Login</button>
+<div class="contenedor">
+
+  <label for="Email">Usuario</label>
+  <input type="text" placeholder="Usuario (jimena)" [(ngModel)]="user" class="form-control" >
+
+
+  <label for="password">Password</label>
+  <input type="password" placeholder="Contraseña (password)" [(ngModel)]="password" class="form-control" />
+
+  <div class="spacer" style="margin-top: 1rem; grid-column: 2; justify-self: right;">
+    <button type="submit" class="btn btn-info" (click)="Login()">Login</button>
   </div>
 </div>
